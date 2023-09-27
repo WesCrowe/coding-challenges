@@ -26,6 +26,9 @@
  * Given a roman numeral, convert it to an integer.
  */
 
+import java.util.HashMap;
+import java.util.Map;
+
 class RomanNumeralToInt {
 
     /* A semi-fancy solution to show off try-catch */
@@ -77,37 +80,40 @@ class RomanNumeralToInt {
     }
 
     /* A more technically efficient solution */
-    @Override
-    public int romanToInt(String s) {
-        
-        //create a map and populate it with numerals and values
-        Map<Character, Integer> numVals = new HashMap<>();
-        numVals.put('I', 1);
-        numVals.put('V', 5);
-        numVals.put('X', 10);
-        numVals.put('L', 50);
-        numVals.put('C', 100);
-        numVals.put('D', 500);
-        numVals.put('M', 1000);
-        
-        //iterate through the numerals
-        int val = 0;
-        for (int i = 0; i < s.length(); i++) {
+    public class RomNum2Int extends RomanNumeralToInt{
 
-            //if the current numeral is not the last one AND
-            //the current numeral is of lesser value than the next one
-            if (i < s.length() - 1 &&
-                numVals.get(s.charAt(i)) < numVals.get(s.charAt(i + 1))) {
+        @Override
+        public int romanToInt(String s) {
+        
+            //create a map and populate it with numerals and values
+            Map<Character, Integer> numVals = new HashMap<>();
+            numVals.put('I', 1);
+            numVals.put('V', 5);
+            numVals.put('X', 10);
+            numVals.put('L', 50);
+            numVals.put('C', 100);
+            numVals.put('D', 500);
+            numVals.put('M', 1000);
+        
+            //iterate through the numerals
+            int val = 0;
+            for (int i = 0; i < s.length(); i++) {
+
+                //if the current numeral is not the last one AND
+                //the current numeral is of lesser value than the next one
+                if (i < s.length() - 1 &&
+                    numVals.get(s.charAt(i)) < numVals.get(s.charAt(i + 1))) {
                 
                     //subtract the current numeral's value
                     val -= numVals.get(s.charAt(i));
+                }
+                //elsewise, add the current numeral's value
+                else {
+                    val += numVals.get(s.charAt(i));
+                }
             }
-            //elsewise, add the current numeral's value
-            else {
-                val += numVals.get(s.charAt(i));
-            }
+            
+            return val;
         }
-        
-        return val;
     }
 }
